@@ -3,12 +3,13 @@ import 'package:foodapp/core/utils/app_colors.dart';
 import 'package:foodapp/features/auth/presentation/views/edit_user_data.dart';
 import 'package:foodapp/features/auth/presentation/views/forgot_password.dart';
 import 'package:foodapp/features/auth/presentation/views/login_view.dart';
-import 'package:foodapp/features/auth/presentation/views/profile_view.dart';
 import 'package:foodapp/features/auth/presentation/views/signup_view.dart';
 import 'package:foodapp/features/cart/presentation/views/cart_view.dart';
 import 'package:foodapp/features/checkout/presentation/views/checkout_view.dart';
 import 'package:foodapp/features/home/presentation/views/home_view.dart';
+import 'package:foodapp/features/order_history/presentation/views/order_history.dart';
 import 'package:foodapp/features/product/presentation/views/product_details_view.dart';
+import 'package:foodapp/root.dart';
 import 'package:foodapp/splash_view.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,6 +26,9 @@ class AppRouter {
   static const String profile = '/profile';
   static const String forgotPassword = '/forgotPassword';
   static const String editUserData = '/editUserData';
+  static const String orderHistory = '/orderHistory';
+  static const String root = '/root';
+
 
   // GoRouter Configuration
   static final GoRouter router = GoRouter(
@@ -101,20 +105,16 @@ class AppRouter {
 
       // Profile Screen (Example)
       GoRoute(
-        path: profile,
-        name: 'profile',
-        builder: (context, state) => const ProfileView(),
+        path: orderHistory,
+        name: 'orderHistory',
+        builder: (context, state) => const OrderHistory(),
       ),
       GoRoute(
-        path: profile,
-        name: 'profile',
-        builder: (context, state) => const ProfileView(),
+        path: root,
+        name: 'root',
+        builder: (context, state) => const Root(),
       ),
-      GoRoute(
-        path: profile,
-        name: 'profile',
-        builder: (context, state) => const ProfileView(),
-      ),
+
     ],
 
     // Error Handler

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/core/utils/app_colors.dart';
+import 'package:foodapp/core/utils/app_router.dart';
 import 'package:foodapp/core/utils/text_style.dart';
 import 'package:foodapp/features/auth/presentation/widgets/custom_user_data.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -56,7 +58,7 @@ class ProfileView extends StatelessWidget {
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () {
-                        
+                        context.go(AppRouter.editUserData);
                       },
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(
