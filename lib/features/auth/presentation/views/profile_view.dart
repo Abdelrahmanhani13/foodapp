@@ -55,7 +55,9 @@ class ProfileView extends StatelessWidget {
                   /// EDIT BUTTON ✅
                   Expanded(
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        
+                      },
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(
                           color: AppColors.primary,

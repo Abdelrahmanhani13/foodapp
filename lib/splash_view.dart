@@ -11,9 +11,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-  late Animation<double> _fadeAnimation;
-  late Animation<double> _rotateAnimation;
+  late Animation<double> _scale;
+  late Animation<double> _fade;
+  late Animation<double> _borderScale;
 
   @override
   void initState() {
@@ -21,37 +21,25 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 2200),
+      duration: const Duration(milliseconds: 2400),
     );
 
-    _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.0, 0.7, curve: Curves.elasticOut),
-      ),
+    _scale = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: const Interval(0.0, 0.75, curve: Curves.elasticOut)),
     );
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.4, 1.0, curve: Curves.easeIn),
-      ),
+    _fade = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: const Interval(0.4, 1.0, curve: Curves.easeIn)),
     );
 
-    _rotateAnimation = Tween<double>(begin: 0.0, end: 0.12).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.0, 0.7, curve: Curves.easeOut),
-      ),
+    _borderScale = Tween<double>(begin: 0.8, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: const Interval(0.1, 0.8, curve: Curves.easeOutBack)),
     );
 
     _controller.forward();
 
-    // الانتقال التلقائي بعد 2.8 ثانية (حتى بعد انتهاء الأنيميشن)
-    Future.delayed(const Duration(milliseconds: 2800), () {
-      if (mounted) {
-        context.go('/login'); // أو '/onboarding' أو '/home' حسب اللوجيك بتاعك
-      }
+    Future.delayed(const Duration(milliseconds: 3000), () {
+      if (mounted) context.go('/login');
     });
   }
 
@@ -64,10 +52,10 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FFED), // نفس لون خلفية التطبيق
+      backgroundColor: const Color(0xFFF8FFED),
       body: Stack(
         children: [
-          // خلفية دوائر خفيفة متحركة (أنيميشن خفيف جدًا)
+          // خلفية دوائر خفيفة
           AnimatedBuilder(
             animation: _controller,
             builder: (context, child) {
@@ -83,77 +71,136 @@ class _SplashScreenState extends State<SplashScreen>
             child: AnimatedBuilder(
               animation: _controller,
               builder: (context, child) {
-                return Transform.scale(
-                  scale: _scaleAnimation.value,
-                  child: Transform.rotate(
-                    angle: _rotateAnimation.value,
-                    child: Opacity(
-                      opacity: _fadeAnimation.value,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // البرجر المتحرك
-                          Container(
-                            height: 220,
-                            width: 220,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.15),
-                                  blurRadius: 40,
-                                  offset: const Offset(0, 20),
-                                ),
-                              ],
-                            ),
-                            child: ClipOval(
-                              child: Image.network(
-                                "https://images.pexels.com/photos/3738730/pexels-photo-3738730.jpeg", // برجر فاخر
-                                fit: BoxFit.cover,
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return const CircularProgressIndicator(
-                                        color: Color(0xFF006400),
-                                      );
-                                    },
+                return Opacity(
+                  opacity: _fade.value,
+                  child: Transform.scale(
+                    scale: _scale.value,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // الإطار الدائري الفاخر بدون صورة
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            // الشادو الخارجي
+                            Container(
+                              height: 240,
+                              width: 240,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    blurRadius: 50,
+                                    offset: const Offset(0, 25),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
 
-                          const SizedBox(height: 48),
+                            // الإطار المتحرك
+                            AnimatedBuilder(
+                              animation: _borderScale,
+                              builder: (context, child) {
+                                return Transform.scale(
+                                  scale: _borderScale.value,
+                                  child: Container(
+                                    height: 230,
+                                    width: 230,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      gradient: const LinearGradient(
+                                        colors: [
+                                          Color(0xFF006400),
+                                          Color(0xFF008000),
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: const Color(0xFF006400).withOpacity(0.4),
+                                          blurRadius: 30,
+                                          offset: const Offset(0, 10),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
 
-                          // النص المتحرك
-                          Text(
-                            "HUNGRY?",
-                            style: TextStyle(
-                              fontSize: 52,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xFF006400),
-                              letterSpacing: 4,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  offset: const Offset(0, 4),
-                                  blurRadius: 10,
+                            // الدائرة البيضاء الداخلية
+                            Container(
+                              height: 210,
+                              width: 210,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+
+                            // اللوجو الداخلي (نص أو أيقونة)
+                            Column(
+                              children: [
+                                const Icon(
+                                  Icons.restaurant_menu_rounded,
+                                  size: 80,
+                                  color: Color(0xFF006400),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  "HUNGRY",
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xFF006400),
+                                    letterSpacing: 4,
+                                    shadows: [
+                                      Shadow(
+                                        color: Colors.black.withOpacity(0.3),
+                                        offset: const Offset(0, 2),
+                                        blurRadius: 6,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
+                          ],
+                        ),
 
-                          const SizedBox(height: 12),
+                        const SizedBox(height: 60),
 
-                          Text(
-                            "The best burgers in town",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.grey[700],
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 1.2,
-                            ),
+                        // النص
+                        Text(
+                          "HUNGRY?",
+                          style: TextStyle(
+                            fontSize: 56,
+                            fontWeight: FontWeight.bold,
+                            color: const Color(0xFF006400),
+                            letterSpacing: 6,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black.withOpacity(0.25),
+                                offset: const Offset(0, 6),
+                                blurRadius: 12,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+
+                        const SizedBox(height: 12),
+
+                        Text(
+                          "The best burgers in town",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.grey[800],
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -161,23 +208,31 @@ class _SplashScreenState extends State<SplashScreen>
             ),
           ),
 
-          // مؤشر تحميل صغير في الأسفل (اختياري)
+          // خط تحميل صغير
           Positioned(
-            bottom: 60,
-            left: 0,
-            right: 0,
+            bottom: 80,
+            left: 100,
+            right: 100,
             child: AnimatedBuilder(
               animation: _controller,
               builder: (context, child) {
                 return Opacity(
-                  opacity: _fadeAnimation.value,
-                  child: const SizedBox(
-                    width: 40,
+                  opacity: _fade.value,
+                  child: Container(
                     height: 4,
-                    child: LinearProgressIndicator(
-                      backgroundColor: Colors.white24,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        Color(0xFF006400),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                    child: FractionallySizedBox(
+                      alignment: Alignment.centerLeft,
+                      widthFactor: _controller.value,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF006400),
+                          borderRadius: BorderRadius.circular(2),
+                        ),
                       ),
                     ),
                   ),
@@ -191,7 +246,6 @@ class _SplashScreenState extends State<SplashScreen>
   }
 }
 
-// رسم خلفية دوائر متحركة خفيفة جدًا (لا تؤثر على الأداء)
 class _BackgroundPainter extends CustomPainter {
   final double progress;
   _BackgroundPainter(this.progress);
@@ -200,31 +254,13 @@ class _BackgroundPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()..style = PaintingStyle.fill;
 
-    // دائرة يمين فوق
     paint.color = const Color(0xFF006400).withOpacity(0.08 * progress);
-    canvas.drawCircle(
-      Offset(size.width * 0.9, size.height * 0.15),
-      120 * progress,
-      paint,
-    );
+    canvas.drawCircle(Offset(size.width * 0.85, size.height * 0.15), 140 * progress, paint);
 
-    // دائرة يسار تحت
-    paint.color = const Color(0xFF006400).withOpacity(0.1 * progress);
-    canvas.drawCircle(
-      Offset(size.width * 0.1, size.height * 0.85),
-      180 * progress,
-      paint,
-    );
-
-    // دائرة وسط يمين
     paint.color = const Color(0xFF006400).withOpacity(0.06 * progress);
-    canvas.drawCircle(
-      Offset(size.width * 0.8, size.height * 0.7),
-      100 * progress,
-      paint,
-    );
+    canvas.drawCircle(Offset(size.width * 0.15, size.height * 0.8), 160 * progress, paint);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(_BackgroundPainter oldDelegate) => true;
 }

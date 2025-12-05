@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/core/utils/app_colors.dart';
+import 'package:foodapp/features/auth/presentation/views/edit_user_data.dart';
+import 'package:foodapp/features/auth/presentation/views/forgot_password.dart';
 import 'package:foodapp/features/auth/presentation/views/login_view.dart';
 import 'package:foodapp/features/auth/presentation/views/profile_view.dart';
 import 'package:foodapp/features/auth/presentation/views/signup_view.dart';
@@ -18,6 +20,8 @@ class AppRouter {
   static const String checkout = '/checkout';
   static const String success = '/success';
   static const String profile = '/profile';
+  static const String forgotPassword = '/forgotPassword';
+  static const String editUserData = '/editUserData';
 
   // GoRouter Configuration
   static final GoRouter router = GoRouter(
@@ -52,6 +56,18 @@ class AppRouter {
         builder: (context, state) => const HomeView(),
       ),
 
+      GoRoute(
+        path: editUserData,
+
+        name: 'editUserData',
+        builder: (context, state) => const EditProfileView(),
+      ),
+      GoRoute(
+        path: forgotPassword,
+
+        name: 'forgotPassword',
+        builder: (context, state) => const ForgotPasswordScreen(),
+      ),
       // Product Details Screen
       // GoRoute(
       //   path: productDetails,

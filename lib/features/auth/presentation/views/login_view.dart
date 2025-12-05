@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/core/utils/app_colors.dart';
+import 'package:foodapp/core/utils/app_router.dart';
 import 'package:foodapp/core/utils/text_style.dart';
 import 'package:foodapp/features/auth/presentation/widgets/custom_text_form_field.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -46,14 +48,18 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
                 const SizedBox(height: 40),
-                 Text(
-                  'Welcome Back!',
-                  style: TextStyles.bold16.copyWith(fontSize: 32),
+                Center(
+                  child: Text(
+                    'Welcome Back!',
+                    style: TextStyles.bold16.copyWith(fontSize: 32),
+                  ),
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  'Sign in to continue',
-                  style: TextStyles.regular13,
+                Center(
+                  child: Text(
+                    'Sign in to continue',
+                    style: TextStyles.regular16,
+                  ),
                 ),
                 const SizedBox(height: 40),
                 CustomTextFormField(
@@ -89,11 +95,13 @@ class _LoginViewState extends State<LoginView> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () {},
-                        child:  Text(
+                        onPressed: () {
+                          context.go(AppRouter.forgotPassword);
+                        },
+                        child: Text(
                           'Forgot Password?',
                           style: TextStyles.semiBold16.copyWith(
-                            color:AppColors.primary,
+                            color: AppColors.primary,
                           ),
                         ),
                       ),
@@ -143,11 +151,10 @@ class _LoginViewState extends State<LoginView> {
                       style: TextStyles.regular13,
                     ),
                     TextButton(
-                      onPressed: () {},
-                      child:  Text(
-                        'Sign Up',
-                        style: TextStyles.semiBold16
-                      ),
+                      onPressed: () {
+                        context.go(AppRouter.signup);
+                      },
+                      child: Text('Sign Up', style: TextStyles.semiBold16),
                     ),
                   ],
                 ),

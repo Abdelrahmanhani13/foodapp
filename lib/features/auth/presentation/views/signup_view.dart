@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/core/utils/app_colors.dart';
+import 'package:foodapp/core/utils/app_router.dart';
 import 'package:foodapp/core/utils/text_style.dart';
 import 'package:foodapp/features/auth/presentation/widgets/custom_text_form_field.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -190,7 +192,7 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        context.go(AppRouter.login);
                       },
                       child: Text(
                         'Sign In',
