@@ -113,7 +113,7 @@ class _HomeViewState extends State<HomeView> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 18,
                   crossAxisSpacing: 18,
-                  childAspectRatio: 0.63, // مظبوط تمام مع الصور والنصوص
+                  childAspectRatio: 0.62, // مظبوط تمام مع الصور والنصوص
                 ),
                 delegate: SliverChildListDelegate(
                   List.generate(
