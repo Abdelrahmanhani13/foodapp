@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/core/utils/app_router.dart';
 import 'package:foodapp/features/home/presentation/widgets/category_list.dart';
 import 'package:foodapp/features/home/presentation/widgets/product_card.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -118,11 +120,18 @@ class _HomeViewState extends State<HomeView> {
                 delegate: SliverChildListDelegate(
                   List.generate(
                     6,
-                    (index) => foodCard(
-                      "Delicious Food",
-                      "With cheese and tomato",
-                      4.5,
-                      "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+                    (index) => GestureDetector(
+                      onTap: () {
+                        context.push(
+                          AppRouter.productDetails,
+                        ); // Navigate to product details
+                      },
+                      child: foodCard(
+                        "Delicious Food",
+                        "With cheese and tomato",
+                        4.5,
+                        "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+                      ),
                     ),
                   ),
                 ),
