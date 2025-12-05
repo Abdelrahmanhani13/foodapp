@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/core/utils/app_colors.dart';
-import 'package:foodapp/features/auth/presentation/views/login_view.dart';
-import 'package:foodapp/features/auth/presentation/views/profile_view.dart';
+import 'package:foodapp/core/utils/app_router.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: AppColors.primary,
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       title: 'Food App',
-      home: ProfileView(),
+      routerConfig: AppRouter.router,
     );
   }
 }
