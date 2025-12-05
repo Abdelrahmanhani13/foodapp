@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/features/home/presentation/widgets/category_list.dart';
+import 'package:foodapp/features/home/presentation/widgets/product_card.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -91,13 +93,12 @@ class _HomeViewState extends State<HomeView> {
                           selectedCategoryIndex = index;
                         });
                       },
-                      child: _categoryChip(
+                      child: categoryChip(
                         categories[index],
                         selectedCategoryIndex == index,
-                        
                       ),
                     ),
-                  )
+                  ),
                 ),
               ),
             ),
@@ -114,33 +115,17 @@ class _HomeViewState extends State<HomeView> {
                   crossAxisSpacing: 18,
                   childAspectRatio: 0.63, // مظبوط تمام مع الصور والنصوص
                 ),
-                delegate: SliverChildListDelegate([
-                  _foodCard(
-                    "Cheeseburger",
-                    "Wendy's Burger",
-                    4.9,
-                    "https://images.pexels.com/photos/15076700/pexels-photo-15076700.jpeg",
+                delegate: SliverChildListDelegate(
+                  List.generate(
+                    6,
+                    (index) => foodCard(
+                      "Delicious Food",
+                      "With cheese and tomato",
+                      4.5,
+                      "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+                    ),
                   ),
-                  _foodCard(
-                    "Hamburger",
-                    "Veggie Burger",
-                    4.8,
-                    "https://images.pexels.com/photos/15076700/pexels-photo-15076700.jpeg",
-                  ),
-                  _foodCard(
-                    "Hamburger",
-                    "Chicken Burger",
-                    4.6,
-                    "https://images.pexels.com/photos/15076700/pexels-photo-15076700.jpeg",
-                  ),
-                  _foodCard(
-                    "Hamburger",
-                    "Fried Chicken Burger",
-                    4.5,
-                    "https://images.pexels.com/photos/15076700/pexels-photo-15076700.jpeg",
-                  ),
-                  // أضف كمان لو عايز
-                ]),
+                ),
               ),
             ),
 
@@ -148,117 +133,6 @@ class _HomeViewState extends State<HomeView> {
             const SliverToBoxAdapter(child: SizedBox(height: 20)),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _categoryChip(String title, bool active) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 12),
-      child: Chip(
-        label: Text(
-          title,
-          style: TextStyle(
-            color: active ? Colors.white : Colors.black87,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        backgroundColor: active ? const Color(0xFF006400) : Colors.grey[200],
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-      ),
-    );
-  }
-
-  Widget _foodCard(String title, String subtitle, double rating, String image) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 15,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // الصورة
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-            child: Image.network(
-              image,
-              height: 120,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(
-                height: 120,
-                color: Colors.grey[300],
-                child: Icon(Icons.fastfood, color: Colors.grey[600], size: 50),
-              ),
-            ),
-          ),
-
-          // المحتوى
-          Padding(
-            padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(Icons.star, color: Colors.amber, size: 18),
-                        const SizedBox(width: 4),
-                        Text(
-                          " $rating",
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF006400),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 22,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }
