@@ -25,15 +25,24 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: const Interval(0.0, 0.7, curve: Curves.elasticOut)),
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.0, 0.7, curve: Curves.elasticOut),
+      ),
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: const Interval(0.4, 1.0, curve: Curves.easeIn)),
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.4, 1.0, curve: Curves.easeIn),
+      ),
     );
 
     _rotateAnimation = Tween<double>(begin: 0.0, end: 0.12).animate(
-      CurvedAnimation(parent: _controller, curve: const Interval(0.0, 0.7, curve: Curves.easeOut)),
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.0, 0.7, curve: Curves.easeOut),
+      ),
     );
 
     _controller.forward();
@@ -99,12 +108,15 @@ class _SplashScreenState extends State<SplashScreen>
                             ),
                             child: ClipOval(
                               child: Image.network(
-                                "https://i.imgur.com/0g9y3.jpg", // برجر فاخر
+                                "https://images.pexels.com/photos/3738730/pexels-photo-3738730.jpeg", // برجر فاخر
                                 fit: BoxFit.cover,
-                                loadingBuilder: (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return const CircularProgressIndicator(color: Color(0xFF006400));
-                                },
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return const CircularProgressIndicator(
+                                        color: Color(0xFF006400),
+                                      );
+                                    },
                               ),
                             ),
                           ),
@@ -164,7 +176,9 @@ class _SplashScreenState extends State<SplashScreen>
                     height: 4,
                     child: LinearProgressIndicator(
                       backgroundColor: Colors.white24,
-                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF006400)),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Color(0xFF006400),
+                      ),
                     ),
                   ),
                 );
