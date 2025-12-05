@@ -5,7 +5,10 @@ import 'package:foodapp/features/auth/presentation/views/forgot_password.dart';
 import 'package:foodapp/features/auth/presentation/views/login_view.dart';
 import 'package:foodapp/features/auth/presentation/views/profile_view.dart';
 import 'package:foodapp/features/auth/presentation/views/signup_view.dart';
+import 'package:foodapp/features/cart/presentation/views/cart_view.dart';
+import 'package:foodapp/features/checkout/presentation/views/checkout_view.dart';
 import 'package:foodapp/features/home/presentation/views/home_view.dart';
+import 'package:foodapp/features/product/presentation/views/product_details_view.dart';
 import 'package:foodapp/splash_view.dart';
 import 'package:go_router/go_router.dart';
 
@@ -68,29 +71,26 @@ class AppRouter {
         name: 'forgotPassword',
         builder: (context, state) => const ForgotPasswordScreen(),
       ),
-      // Product Details Screen
-      // GoRoute(
-      //   path: productDetails,
-      //   name: 'productDetails',
-      //   builder: (context, state) {
-      //     final burger = state.extra as Map<String, dynamic>;
-      //     return ProductDetailsScreen(burger: burger);
-      //   },
-      // ),
+      GoRoute(
+        path: productDetails,
+        name: 'productDetails',
+        builder: (context, state) {
+          return ProductDetailsView();
+        },
+      ),
 
-      // Cart Screen
-      // GoRoute(
-      //   path: cart,
-      //   name: 'cart',
-      //   builder: (context, state) => const CartScreen(),
-      // ),
+      GoRoute(
+        path: cart,
+        name: 'cart',
+        builder: (context, state) => const CartView(),
+      ),
 
       // // Checkout Screen
-      // GoRoute(
-      //   path: checkout,
-      //   name: 'checkout',
-      //   builder: (context, state) => const CheckoutScreen(),
-      // ),
+      GoRoute(
+        path: checkout,
+        name: 'checkout',
+        builder: (context, state) => const CheckoutView(),
+      ),
 
       // // Success Screen
       // GoRoute(
@@ -100,6 +100,16 @@ class AppRouter {
       // ),
 
       // Profile Screen (Example)
+      GoRoute(
+        path: profile,
+        name: 'profile',
+        builder: (context, state) => const ProfileView(),
+      ),
+      GoRoute(
+        path: profile,
+        name: 'profile',
+        builder: (context, state) => const ProfileView(),
+      ),
       GoRoute(
         path: profile,
         name: 'profile',
