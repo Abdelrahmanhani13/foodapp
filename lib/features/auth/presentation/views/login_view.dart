@@ -58,7 +58,8 @@ class _LoginViewState extends State<LoginView> {
                 Center(
                   child: Text(
                     'Sign in to continue',
-                    style: TextStyles.regular16,
+                    style: TextStyles.regular13.copyWith(
+                      color: AppColors.borderDark,),
                   ),
                 ),
                 const SizedBox(height: 40),

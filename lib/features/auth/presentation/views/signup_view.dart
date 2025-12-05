@@ -57,15 +57,19 @@ class _SignUpViewState extends State<SignUpView> {
                 const SizedBox(height: 40),
 
                 /// TITLE
-                const Text(
-                  'Create Account',
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                Center(
+                  child: const Text(
+                    'Create Account',
+                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                  ),
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  'Sign up to get started',
-                  style: TextStyles.regular13.copyWith(
-                    color: AppColors.borderDark,
+                Center(
+                  child: Text(
+                    'Sign up to get started',
+                    style: TextStyles.regular13.copyWith(
+                      color: AppColors.borderDark,
+                    ),
                   ),
                 ),
 
