@@ -33,7 +33,7 @@ class ApiService {
     }
   }
 
-  Future<dynamic> putRequest(String endpoint, Map<String, dynamic> data) async {
+  Future<dynamic> putRequest(String endpoint, dynamic data) async {
     try {
       final response = await _apiClient.dio.put(endpoint, data: data);
       return response.data;
