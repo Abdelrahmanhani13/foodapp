@@ -40,7 +40,7 @@ class _LoginViewState extends State<LoginView> {
               backgroundColor: Colors.green,
             ),
           );
-          context.go(AppRouter.home);
+          context.go(AppRouter.root);
         } else if (state is LoginLoading) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(

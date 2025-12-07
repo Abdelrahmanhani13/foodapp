@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodapp/features/auth/presentation/logic/auth_cubit/authentication_cubit.dart';
 import 'package:foodapp/features/auth/presentation/widgets/custom_text_form_field.dart';
 
 class EditProfileView extends StatefulWidget {
@@ -9,9 +11,14 @@ class EditProfileView extends StatefulWidget {
 }
 
 class _EditProfileViewState extends State<EditProfileView> {
-  final _nameController = TextEditingController(text: "John Doe");
-  final _emailController = TextEditingController(text: "john@email.com");
-  final _phoneController = TextEditingController(text: "+20123456789");
+  @override
+  void initState() {
+    context.read<AuthenticationCubit>().fetchUserProfile();
+    super.initState();
+  }
+
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -21,8 +28,10 @@ class _EditProfileViewState extends State<EditProfileView> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: const Color(0xFF006400),
-        title:
-            const Text("Edit Profile", style: TextStyle(color: Colors.white)),
+        title: const Text(
+          "Edit Profile",
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -36,7 +45,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                 CustomTextFormField(
                   controller: _nameController,
                   labelText: "Full Name",
-                  hintText: "Enter your name",
+                  hintText: 'Enter your full name',
                   prefixIcon: Icons.person_outline,
                   keyboardType: TextInputType.name,
                 ),
@@ -44,29 +53,24 @@ class _EditProfileViewState extends State<EditProfileView> {
                 CustomTextFormField(
                   controller: _emailController,
                   labelText: "Email",
-                  hintText: "Enter your email",
+                  hintText: 'Enter your email',
                   prefixIcon: Icons.email_outlined,
                   keyboardType: TextInputType.emailAddress,
                 ),
-                const SizedBox(height: 20),
-                CustomTextFormField(
-                  controller: _phoneController,
-                  labelText: "Phone",
-                  hintText: "Enter your phone",
-                  prefixIcon: Icons.phone_outlined,
-                  keyboardType: TextInputType.phone,
-                ),
                 const SizedBox(height: 30),
-
+    
                 /// SAVE
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        print("Saved Data");
-                        Navigator.pop(context);
-                      }
+                      // if (_formKey.currentState!.validate()) {
+                      //   final name = _nameController.text.trim();
+                      //   final email = _emailController.text.trim();
+                      //   context
+                      //       .read<AuthenticationCubit>()
+                      //       .updateUserProfile(name, email);
+                      // }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF006400),
@@ -84,7 +88,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -97,7 +101,6 @@ class _EditProfileViewState extends State<EditProfileView> {
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
-    _phoneController.dispose();
     super.dispose();
   }
 }

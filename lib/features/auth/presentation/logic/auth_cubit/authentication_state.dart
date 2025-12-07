@@ -26,3 +26,14 @@ final class RegisterFailure extends AuthenticationState {
   final String errorMessage;
   RegisterFailure(this.errorMessage);
 }
+
+final class ProfileLoading extends AuthenticationState {}
+final class ProfileSuccess extends AuthenticationState {
+  final UserModel user;
+  ProfileSuccess(this.user);
+}
+final class ProfileFailure extends AuthenticationState {
+  final String errorMessage;
+  ProfileFailure(this.errorMessage);
+}
+

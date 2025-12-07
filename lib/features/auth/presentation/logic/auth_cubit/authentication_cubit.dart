@@ -1,3 +1,4 @@
+
 import 'package:bloc/bloc.dart';
 import 'package:foodapp/core/error/failure.dart';
 import 'package:foodapp/features/auth/data/auth_repo.dart';
@@ -7,7 +8,8 @@ import 'package:meta/meta.dart';
 part 'authentication_state.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
-  AuthenticationCubit(this.authRepo) : super(AuthenticationInitial());
+  AuthenticationCubit(this.authRepo)
+    : super(AuthenticationInitial());
 
   final AuthRepo authRepo;
 
@@ -42,4 +44,22 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       emit(RegisterFailure('An unexpected error occurred. Please try again.'));
     }
   }
+
+  Future<void> fetchUserProfile() async {
+    emit(ProfileLoading());
+    try {
+      final user = await authRepo.getUserProfile();
+      if (user != null) {
+        emit(ProfileSuccess(user));
+      } else {
+        emit(ProfileFailure('Failed to fetch profile. Please try again.'));
+      }
+    } on ServerFailure catch (e) {
+      emit(ProfileFailure(e.errMessage));
+    } catch (e) {
+      emit(ProfileFailure('An unexpected error occurred. Please try again.'));
+    }
+  }
+
+
 }

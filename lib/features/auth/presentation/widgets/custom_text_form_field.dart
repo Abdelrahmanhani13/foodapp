@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
-    required this.controller,
+     this.controller,
     required this.labelText,
     required this.hintText,
     required this.prefixIcon,
@@ -11,7 +11,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.keyboardType,  this.obscureText=false,
   });
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String labelText;
   final String hintText;
   final IconData prefixIcon;
