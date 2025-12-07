@@ -1,14 +1,16 @@
 class UserModel {
   final String name;
   final String email;
+  final String password;
   final String? image;
   final String? token;
   final String? address;
   final String? visa;
 
-  UserModel({
+  UserModel( {
     required this.name,
     required this.email,
+    required this.password,
     this.image,
     this.token,
     this.address,
@@ -17,12 +19,14 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      name: json['name'],
-      email: json['email'],
+      name: json['name'] ?? '',
+      email: json['email'] ?? '',
+      password: json['password'] ?? '',
       image: json['image'],
       token: json['token'],
       address: json['address'],
-      visa: json['Visa'],
+      visa: json['visa'],
     );
   }
+  
 }
