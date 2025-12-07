@@ -61,5 +61,15 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
   }
 
-
+  Future<void>logOut()async{
+    emit(LogoutLoading());
+    try{
+      await authRepo.logout();
+      emit(LogoutSuccess());
+    }on ServerFailure catch(e){
+      emit(LogoutFailure(e.errMessage));
+    }catch(e){
+      emit(LogoutFailure('An unexpected error occurred. Please try again.'));
+    }
+  }
 }

@@ -14,16 +14,16 @@ class ProfileView extends StatefulWidget {
   State<ProfileView> createState() => _ProfileViewState();
 }
 
-
 class _ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     context.read<AuthenticationCubit>().fetchUserProfile();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthenticationCubit, AuthenticationState>(
+    return BlocConsumer<AuthenticationCubit, AuthenticationState>(
       builder: (context, state) {
         return Scaffold(
           backgroundColor: Colors.white,
@@ -60,15 +60,23 @@ class _ProfileViewState extends State<ProfileView> {
                   const SizedBox(height: 40),
 
                   /// DATA (READ ONLY)
-                  buildInfoTile(Icons.person, "Full Name", state is ProfileSuccess
-                      ? state.user.name
-                      : " "),
-                  buildInfoTile(Icons.email, "Email", state is ProfileSuccess
-                      ? state.user.email 
-                      : " "),
-                  buildInfoTile(Icons.phone, "Phone", state is ProfileSuccess
-                      ? state.user.address ?? "Not Provided"
-                      : " "),
+                  buildInfoTile(
+                    Icons.person,
+                    "Full Name",
+                    state is ProfileSuccess ? state.user.name : " ",
+                  ),
+                  buildInfoTile(
+                    Icons.email,
+                    "Email",
+                    state is ProfileSuccess ? state.user.email : " ",
+                  ),
+                  buildInfoTile(
+                    Icons.phone,
+                    "Phone",
+                    state is ProfileSuccess
+                        ? state.user.address ?? "Not Provided"
+                        : " ",
+                  ),
 
                   const Spacer(),
 
@@ -104,24 +112,28 @@ class _ProfileViewState extends State<ProfileView> {
 
                       /// LOGOUT BUTTON ✅
                       Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            print("Logout");
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          child: Text(
-                            "Log Out",
-                            style: TextStyles.bold16.copyWith(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
+                        child: state is LoginLoading
+                            ? CircularProgressIndicator()
+                            : ElevatedButton(
+                                onPressed: () {
+                                  context.read<AuthenticationCubit>().logOut();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.primary,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                child: Text(
+                                  "Log Out",
+                                  style: TextStyles.bold16.copyWith(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
                       ),
                     ],
                   ),
@@ -130,7 +142,24 @@ class _ProfileViewState extends State<ProfileView> {
             ),
           ),
         );
-      },
+      }, listener: (BuildContext context, AuthenticationState state) { 
+        if(state is LoginLoading){
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => const Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        } else if (state is LogoutSuccess) {
+          context.go(AppRouter.login);
+        } else if (state is LogoutFailure) {
+          Navigator.of(context).pop(); // Close the loading dialog
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.errorMessage)),
+          );
+        }
+       },
     );
   }
 }

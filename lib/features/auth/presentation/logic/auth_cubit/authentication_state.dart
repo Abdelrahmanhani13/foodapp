@@ -37,3 +37,10 @@ final class ProfileFailure extends AuthenticationState {
   ProfileFailure(this.errorMessage);
 }
 
+final class LogoutLoading extends AuthenticationState {}
+
+final class LogoutSuccess extends AuthenticationState {}
+final class LogoutFailure extends AuthenticationState {
+  final String errorMessage;
+  LogoutFailure(this.errorMessage);
+} 

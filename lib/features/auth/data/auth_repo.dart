@@ -64,6 +64,15 @@ class AuthRepo {
     }
   }
 
-  // في ملف auth_repo.dart
-  
+  Future<void> logout() async {
+    try {
+      final response=await apiService.postRequest('/logout', {});
+      await PrefHelper.clearToken();
+    } on DioException catch (e) {
+      final failure = ServerFailure.fromDioError(e);
+      throw failure;
+    } catch (e) {
+      throw ServerFailure('Unexpected Error, Please try again!');
+    }
+  }
 }
